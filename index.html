@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Electromás — Electrodomésticos en Moreno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<noscript><div style="background:#FEF3C7;color:#92400E;padding:12px 16px;text-align:center;font-weight:600">Para ver el sitio completo abrilo con Chrome, Edge o Firefox (el visor del celular no ejecuta JavaScript).</div></noscript>
+
+<!-- Aviso institucional editable -->
+<div class="top-notice" id="noticeBanner">¡15% OFF en todo el catálogo abonando en Efectivo o Transferencia bancaria!</div>
+
+<header>
+  <div class="bar">
+    <button class="logo" type="button" data-go="home" aria-label="Electromás, ir al inicio"><img src="logo.png" alt="" width="44" height="44"> Electromás</button>
+
+    <div class="search-box">
+      <input type="search" id="searchInput" placeholder="🔍 Buscar producto (ej: Heladera, TV)..." aria-label="Buscar producto">
+    </div>
+
+    <nav aria-label="Navegación principal">
+      <a data-go="home" class="on">Inicio</a>
+      <a data-go="catalogo">Catálogo</a>
+      <a data-go="quienes">Quiénes somos</a>
+      <a data-go="contacto">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- INICIO -->
+  <section class="screen on" id="home">
+    <div class="hero">
+      <div class="hero-text">
+        <span class="tag">Atención directa por WhatsApp</span>
+        <h1>Electrodomésticos para tu hogar y obras en Moreno</h1>
+        <p>Mirá el catálogo, consultá precios y costos de envío al instante, y preguntanos por compras en cuotas semanales.</p>
+        <div class="hero-actions">
+          <a class="btn hero-btn" data-go="catalogo">Ver catálogo completo</a>
+          <a class="btn wa" href="#" data-wa="Hola, quiero hacer una consulta general">💬 Escribir por WhatsApp</a>
+        </div>
+      </div>
+      <img class="hero-logo" src="logo.png" alt="Logo de Electromás" width="220" height="220">
+    </div>
+
+    <div class="info-strip">
+      <div class="info-item"><span>🤝</span><div><b>Trato de barrio</b><p class="sm">Te asesoramos en cada compra.</p></div></div>
+      <div class="info-item"><span>🗓️</span><div><b>Cuotas semanales</b><p class="sm">Para clientes de confianza. Consultanos.</p></div></div>
+      <div class="info-item"><span>💵</span><div><b>15% OFF contado</b><p class="sm">Pagando en efectivo o transferencia.</p></div></div>
+    </div>
+
+    <h2>Categorías principales</h2>
+    <div class="grid" id="cats"></div>
+
+    <h2 class="spaced">Productos destacados</h2>
+    <div class="grid" id="feat"></div>
+  </section>
+
+  <!-- CATÁLOGO -->
+  <section class="screen" id="catalogo">
+    <div class="bc"><a data-go="home">Inicio</a> › Catálogo</div>
+    <h1>Catálogo de productos</h1>
+    <div class="chips" id="chips"></div>
+    <div class="grid" id="list"></div>
+  </section>
+
+  <!-- FICHA DE PRODUCTO -->
+  <section class="screen" id="producto">
+    <div class="bc"><a data-go="home">Inicio</a> › <a data-go="catalogo">Catálogo</a> › <span id="pcat"></span></div>
+    <div class="two">
+      <div class="gallery">
+        <div class="ph big" id="pimg" role="img"></div>
+        <div class="thumbs" id="pthumbs"></div>
+      </div>
+      <div>
+        <span class="tag stock" id="pstock">Stock disponible</span>
+        <h1 id="pname"></h1>
+
+        <div class="price lg" id="pprice"></div>
+        <div class="promo-badge">💵 15% de descuento pagando en efectivo o transferencia: <strong id="ptransferPrice"></strong></div>
+
+        <div class="actions">
+          <a class="btn wa" href="#" id="pwa" data-wa-product>💬 Consultar este producto por WhatsApp</a>
+        </div>
+
+        <!-- Calculador de envío por zona -->
+        <div class="panel ship">
+          <label for="zoneSelect">🚚 <strong>Calcular envío zonal (Moreno):</strong></label>
+          <select id="zoneSelect">
+            <option value="0">Seleccioná tu localidad...</option>
+            <option value="1500">Moreno Centro / Estación ($1.500)</option>
+            <option value="2200">Paso del Rey ($2.200)</option>
+            <option value="2800">Francisco Álvarez ($2.800)</option>
+            <option value="3500">Cuartel V / Trujillo ($3.500)</option>
+          </select>
+          <div id="shipResult" class="ship-result" aria-live="polite"></div>
+
+          <div class="addr-check">
+            <label for="addrInput">📍 <strong>¿Llegamos a tu casa?</strong> Ingresá tu dirección:</label>
+            <div class="addr-row">
+              <input id="addrInput" type="text" autocomplete="street-address" placeholder="Calle, número y localidad">
+              <button class="btn sec" type="button" id="addrBtn">Verificar</button>
+            </div>
+            <div id="addrResult" class="addr-result" aria-live="polite"></div>
+          </div>
+
+          <div class="pickup">🏬 <strong>¿Preferís retirarlo?</strong> Es sin costo en el local. <a class="btn-directions" href="#" target="_blank" rel="noopener noreferrer">Cómo llegar</a></div>
+        </div>
+
+        <h3>Especificaciones técnicas</h3>
+        <div class="panel table-wrap" style="margin-top:8px">
+          <table id="pspec"></table>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="spaced">Productos relacionados</h2>
+    <div class="grid" id="related"></div>
+  </section>
+
+  <!-- QUIÉNES SOMOS -->
+  <section class="screen" id="quienes">
+    <div class="bc"><a data-go="home">Inicio</a> › Quiénes somos</div>
+    <h1>Quiénes somos</h1>
+    <div class="story">
+      <p class="lead">Electromás es un comercio de barrio dedicado a la venta de electrodomésticos, con trato cercano y asesoramiento en cada compra.</p>
+      <p>Nació en 2018 de la mano de sus dueños, <b>Estela Bustos</b> y <b>Roberto Garay</b>. Antes de eso tenían un autoservicio, <b>“El poquito más”</b>, que funcionó por más de 30 años en Mi Barrio, Moreno.</p>
+      <p>Ahí empezaron a ofrecerles pequeños electrodomésticos a sus clientes de siempre, en cuotas semanales. El sistema funcionó tan bien que cerraron el autoservicio y dieron el paso: así nació Electromás.</p>
+      <p>Hoy seguimos trabajando de la misma manera. Nuestra principal forma de venta son los créditos a clientes de confianza, y mantenemos el mismo trato de siempre con quienes nos eligen.</p>
+    </div>
+
+    <h2 class="spaced">Nuestro camino</h2>
+    <div class="timeline">
+      <div class="step"><span class="year">30+ años</span><h3>El poquito más</h3><p class="sm">Autoservicio de barrio en Mi Barrio, Moreno.</p></div>
+      <div class="step"><span class="year">Cuotas semanales</span><h3>Los primeros electrodomésticos</h3><p class="sm">Pequeños electrodomésticos para los clientes del barrio, pagados por semana.</p></div>
+      <div class="step"><span class="year">2018</span><h3>Nace Electromás</h3><p class="sm">Se cierra el autoservicio y nos dedicamos de lleno a los electrodomésticos.</p></div>
+    </div>
+
+    <h2 class="spaced">Atención presencial</h2>
+    <div class="panel table-wrap"><table id="storeInfoQ"></table></div>
+    <div class="actions" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+      <a class="btn sec btn-directions" href="#" target="_blank" rel="noopener noreferrer">📍 Cómo llegar</a>
+      <a class="btn wa" href="#" data-wa="Hola, quiero hacer una consulta desde la web">💬 Escribir por WhatsApp</a>
+      <span class="social-links" style="display:contents"></span>
+    </div>
+
+    <div class="map-block">
+      <h2 class="spaced">Ubicación y zona de reparto</h2>
+      <div id="map-quienes" class="gmap" data-zone="1"><div class="map-loading">Cargando mapa…</div></div>
+      <p class="map-legend" id="zoneLegend"></p>
+    </div>
+
+    <div class="cta-row" style="margin-top:24px">
+      <a class="btn" data-go="catalogo">Ver el catálogo</a>
+      <a class="btn sec" data-go="contacto">Contactanos</a>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="screen" id="contacto">
+    <div class="bc"><a data-go="home">Inicio</a> › Contacto</div>
+    <h1>Contacto</h1>
+    <p class="sm" style="margin-bottom:20px">Escribinos y te respondemos por WhatsApp. También podés pasar por el local.</p>
+
+    <div class="two">
+      <div class="panel form" style="max-width:none">
+        <h3>Envianos tu consulta</h3>
+
+        <label for="c_nombre">Nombre</label>
+        <input id="c_nombre" autocomplete="name" placeholder="Tu nombre">
+
+        <label for="c_email">Email</label>
+        <input id="c_email" type="email" autocomplete="email" placeholder="tunombre@correo.com">
+
+        <label for="c_tel">Teléfono / WhatsApp</label>
+        <input id="c_tel" type="tel" autocomplete="tel" placeholder="11 2345-6789">
+
+        <label for="c_motivo">Motivo de la consulta</label>
+        <select id="c_motivo">
+          <option>Consulta general</option>
+          <option>Comprar en cuotas / crédito</option>
+          <option>Presupuesto por volumen u obra</option>
+          <option>Medios de pago</option>
+          <option>Envío o retiro</option>
+        </select>
+
+        <label for="c_msg">Mensaje</label>
+        <textarea id="c_msg" rows="4" placeholder="Contanos qué producto buscás o qué necesitás..."></textarea>
+
+        <div class="error" id="contactError" aria-live="polite"></div>
+        <button class="btn wa block" id="btnSendContact" type="button">💬 Enviar consulta por WhatsApp</button>
+        <p class="sm" style="margin-top:10px;text-align:center">Al enviar, se abre WhatsApp con tu mensaje listo.</p>
+        <div class="contact-ok" id="contactOk" role="status" hidden></div>
+      </div>
+
+      <div>
+        <div class="panel table-wrap">
+          <table id="storeInfoC"></table>
+        </div>
+        <div class="actions" style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="btn wa" href="#" data-wa="Hola, quiero hacer una consulta desde la web">💬 Hablar por WhatsApp</a>
+          <a class="btn sec btn-directions" id="btnDirections" href="#" target="_blank" rel="noopener noreferrer">📍 Cómo llegar</a>
+        </div>
+        <div class="map-block"><div id="map-container" class="gmap"><div class="map-loading">Cargando mapa…</div></div></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-content">
+    <div class="foot-brand"><img src="logo.png" alt="" width="48" height="48"><div><b>Electromás Moreno</b><br>Ecuador 6370 · (0237) 442-5589</div></div>
+    <div class="links">
+      <a data-go="home">Inicio</a>
+      <a data-go="catalogo">Catálogo</a>
+      <a data-go="quienes">Quiénes somos</a>
+      <a data-go="contacto">Contacto</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Botón flotante de WhatsApp -->
+<a class="fab" href="#" data-wa="Hola, quiero hacer una consulta desde la web" aria-label="Escribir por WhatsApp">💬 <span class="fab-text">WhatsApp</span></a>
+
+
+<script>
+/* ===== CONFIGURACIÓN (lo único que tenés que completar) ===== */
+const WA_NUMBER    = "5492374000000";   // <- número real de WhatsApp: 549 + código de área (sin 0) + número (sin 15)
+const MAPS_API_KEY = "TU_API_KEY";      // <- API Key de Google Cloud (Maps JavaScript API + Geocoding API habilitadas)
+const MAP_ID       = "DEMO_MAP_ID";     // <- para producción: creá un Map ID propio en Google Cloud (es gratis)
+const STORE = {
+  name: "Electromás",
+  address: "Ecuador 6370, B1743 BZF, Provincia de Buenos Aires, Argentina",
+  coords: null,                         // opcional: {lat: -34.xxxx, lng: -58.xxxx} (copiadas de Google Maps) para no consultar Geocoding en cada visita
+  radiusKm: 12,                         // radio de reparto en km (valor de ejemplo: AJUSTALO al real)
+  hours: "Lunes a sábados de 09:00 a 19:00 hs",
+  phone: "(0237) 442-5589",
+  displayAddress: "Ecuador 6370 (B1743 BZF), Provincia de Buenos Aires"
+};
+const SOCIAL = {                        // pegá acá los links de tus redes (si queda vacío, no se muestra el botón)
+  instagram: "",                        // ej: "https://www.instagram.com/tu_usuario"
+  facebook: ""                          // ej: "https://www.facebook.com/tu_pagina"
+};
+
+const DISCOUNT  = 0.15;                 // 15% por pago contado/transferencia
+const DEFAULT_NOTICE = "¡15% OFF en todo el catálogo abonando en Efectivo o Transferencia bancaria!";
+
+/* Datos de EJEMPLO: reemplazalos por tu catálogo real.
+   st:   "ok" (stock disponible) | "low" (últimas unidades) | "ask" (consultar disponibilidad)
+   imgs: fotos del producto, ej: ["img/heladera-1.jpg","img/heladera-2.jpg"]. Si queda vacío se muestra el ícono. */
+const DEFAULT_PRODUCTS = [
+  {id:1,s:"Heladeras",n:"Heladera No Frost 350 L",p:850000,i:"🧊",st:"ok",imgs:[],d:[["Capacidad","350 litros"],["Tecnología","No Frost"],["Eficiencia energética","Clase A+"],["Medidas","Alto 175 × Ancho 60 × Prof. 66 cm"]]},
+  {id:2,s:"Heladeras",n:"Heladera Cíclica 280 L",p:620000,i:"🧊",st:"ok",imgs:[],d:[["Capacidad","280 litros"],["Tecnología","Cíclica"],["Eficiencia energética","Clase A"],["Medidas","Alto 150 × Ancho 55 × Prof. 62 cm"]]},
+  {id:3,s:"Lavarropas",n:"Lavarropas Automático 8 kg",p:710000,i:"🫧",st:"low",imgs:[],d:[["Capacidad de carga","8 kg"],["Centrifugado","1200 RPM"],["Programas","16"],["Eficiencia energética","Clase A"],["Medidas","Alto 85 × Ancho 60 × Prof. 55 cm"]]},
+  {id:4,s:"Cocinas",n:"Cocina a Gas 5 Hornallas",p:780000,i:"🔥",st:"ok",imgs:[],d:[["Hornallas","5"],["Encendido","Eléctrico"],["Medidas","Alto 90 × Ancho 80 × Prof. 60 cm"]]},
+  {id:5,s:"Climatización",n:"Aire Split Frío/Calor 3000 fg",p:950000,i:"❄️",st:"ask",imgs:[],d:[["Potencia","3000 frigorías"],["Tecnología","Inverter"],["Función","Frío/Calor"],["Eficiencia energética","Clase A"],["Medidas (unidad interior)","Alto 28 × Ancho 80 × Prof. 20 cm"]]},
+  {id:6,s:"TV y audio",n:"Smart TV 50\" 4K UHD",p:690000,i:"📺",st:"ok",imgs:[],d:[["Pantalla","50 pulgadas"],["Resolución","4K Ultra HD"],["Conexiones","3 HDMI, 2 USB"],["Medidas (sin base)","Alto 65 × Ancho 112 × Prof. 8 cm"]]},
+  {id:7,s:"Pequeños electrodomésticos",n:"Licuadora de vaso 1,5 L",p:62000,i:"🥤",st:"ok",imgs:[],d:[["Capacidad","1,5 litros"],["Potencia","600 W"],["Velocidades","3"],["Medidas","Alto 40 × Ancho 20 × Prof. 20 cm"]]},
+  {id:8,s:"Pequeños electrodomésticos",n:"Pava eléctrica 1,7 L",p:38000,i:"☕",st:"low",imgs:[],d:[["Capacidad","1,7 litros"],["Potencia","2000 W"],["Seguridad","Corte automático"],["Medidas","Alto 24 × Ancho 22 × Prof. 16 cm"]]}
+];
+
+const SECS = [["Heladeras","🧊"],["Lavarropas","🫧"],["Cocinas","🔥"],["Climatización","❄️"],["TV y audio","📺"],["Pequeños electrodomésticos","🍳"]];
+const STOCK = { ok:["Stock disponible","stock"], low:["Últimas unidades","low"], ask:["Consultar disponibilidad","ask"] };
+
+/* ===== UTILIDADES ===== */
+const $  = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const waLink = t => "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(t);
+const fmtPrice = v => "$ " + Number(v).toLocaleString("es-AR");
+const fmtKm = km => km.toLocaleString("es-AR", {maximumFractionDigits: 1}) + " km";
+const cashPrice = v => Math.round(v * (1 - DISCOUNT));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+// Enlace oficial de Google Maps (no necesita API Key): abre la app en el celular o una pestaña nueva en la PC
+const directionsUrl = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(STORE.name + ", " + STORE.address);
+
+/* ===== ESTADO ===== */
+const P = DEFAULT_PRODUCTS.slice();
+const notice = DEFAULT_NOTICE;
+let currentProduct = null;
+let currentFilter = "Todos";
+let addrState = null;           // última dirección verificada: {formatted, km, inside}
+
+/* ===== NAVEGACIÓN (con URL por pantalla: #catalogo, #contacto, #producto-3) ===== */
+const SCREENS = ["home","catalogo","quienes","contacto"];
+
+function setHash(h){
+  if(location.hash === "#" + h) return;
+  try{ history.pushState(null, "", "#" + h); }catch(e){}
+}
+
+function go(id, fromRoute){
+  $$(".screen").forEach(s => s.classList.toggle("on", s.id === id));
+  const navId = id === "producto" ? "catalogo" : id;
+  $$("nav a").forEach(a => a.classList.toggle("on", a.dataset.go === navId));
+  if(!fromRoute) setHash(id);
+  window.scrollTo(0,0);
+  if(id === "contacto" || id === "quienes") initMaps();   // el mapa se carga recién al entrar a estas pantallas
+}
+
+function route(){
+  const h = location.hash.slice(1);
+  const m = h.match(/^producto-(\d+)$/);
+  if(m){ show(m[1], true); return; }
+  go(SCREENS.includes(h) ? h : "home", true);
+}
+window.addEventListener("popstate", route);
+
+/* ===== GOOGLE MAPS PLATFORM ===== */
+let mapsPromise = null;
+
+// Carga diferida: el script de Google solo se descarga cuando hace falta
+function loadMaps(){
+  if(mapsPromise) return mapsPromise;
+  mapsPromise = new Promise((resolve, reject) => {
+    if(!MAPS_API_KEY || /^TU_/.test(MAPS_API_KEY)){ reject(new Error("Falta configurar MAPS_API_KEY")); return; }
+    window.__mapsReady = resolve;
+    const sc = document.createElement("script");
+    sc.src = "https://maps.googleapis.com/maps/api/js?key=" + encodeURIComponent(MAPS_API_KEY) +
+             "&loading=async&language=es&region=AR&callback=__mapsReady";
+    sc.async = true;
+    sc.onerror = () => reject(new Error("No se pudo cargar Google Maps"));
+    document.head.appendChild(sc);
+  });
+  mapsPromise.catch(() => { mapsPromise = null; });   // permite reintentar
+  return mapsPromise;
+}
+
+// Si Google rechaza la key (restricciones, facturación, etc.), mostramos el mapa simple
+window.gm_authFailure = () => { $$(".gmap").forEach(mapFallback); };
+
+// Mapa simple (sin API Key): se usa si la API no está disponible
+function mapFallback(el){
+  el.innerHTML = '<iframe title="Mapa de ubicación de ' + esc(STORE.name) + '" loading="lazy" referrerpolicy="no-referrer-when-downgrade" ' +
+                 'src="https://maps.google.com/maps?q=' + encodeURIComponent(STORE.name + ", " + STORE.address) + '&output=embed"></iframe>';
+}
+
+// Geocoding API: dirección -> coordenadas (misma consulta que GET /maps/api/geocode/json?address=...)
+async function geocode(address, near){
+  await loadMaps();
+  const { Geocoder } = await google.maps.importLibrary("geocoding");
+  const req = { address, region: "AR", componentRestrictions: { country: "AR" } };
+  if(near) req.bounds = { south: near.lat - 0.4, north: near.lat + 0.4, west: near.lng - 0.4, east: near.lng + 0.4 };
+  const res = await new Geocoder().geocode(req);
+  const r = res && res.results && res.results[0];
+  if(!r){ const e = new Error("ZERO_RESULTS"); e.code = "ZERO_RESULTS"; throw e; }
+  const loc = r.geometry.location;
+  return { lat: loc.lat(), lng: loc.lng(), formatted: r.formatted_address };
+}
+
+// Coordenadas del local: fijas (STORE.coords) o geocodificadas una sola vez por visita
+async function getStoreCoords(){
+  if(STORE.coords) return STORE.coords;
+  try{
+    const c = JSON.parse(sessionStorage.getItem("em_store") || "null");
+    if(c && c.addr === STORE.address) return c.pos;
+  }catch(e){}
+  const g = await geocode(STORE.address);
+  const pos = { lat: g.lat, lng: g.lng };
+  try{ sessionStorage.setItem("em_store", JSON.stringify({ addr: STORE.address, pos })); }catch(e){}
+  return pos;
+}
+
+function distKm(a, b){
+  const R = 6371, rad = d => d * Math.PI / 180;
+  const dLat = rad(b.lat - a.lat), dLng = rad(b.lng - a.lng);
+  const h = Math.sin(dLat/2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLng/2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+
+function infoHtml(){
+  return '<div class="info-win"><strong>' + esc(STORE.name) + '</strong>' +
+         esc(STORE.address.replace(", Argentina", "")) + '<br>' + esc(STORE.hours) + '<br>Tel: ' + esc(STORE.phone) +
+         '<br><a href="' + esc(directionsUrl) + '" target="_blank" rel="noopener noreferrer">Cómo llegar</a></div>';
+}
+
+// Maps JavaScript API: mapa + marcador con el logo + ventana de información (+ zona de reparto opcional)
+async function mountMap(el, zone){
+  try{
+    await loadMaps();
+    const [{ Map: GMap, InfoWindow, Circle }, { AdvancedMarkerElement }] = await Promise.all([
+      google.maps.importLibrary("maps"), google.maps.importLibrary("marker")
+    ]);
+    const pos = await getStoreCoords();
+    el.innerHTML = "";
+    const map = new GMap(el, {
+      center: pos, zoom: zone ? 12 : 16, mapId: MAP_ID,
+      gestureHandling: "cooperative", mapTypeControl: false, streetViewControl: false
+    });
+    const logo = document.createElement("img");
+    logo.src = "logo.png"; logo.alt = STORE.name; logo.className = "marker-logo";
+    const marker = new AdvancedMarkerElement({ map, position: pos, content: logo, title: STORE.name, gmpClickable: true });
+    const info = new InfoWindow({ content: infoHtml() });
+    const open = () => info.open({ map, anchor: marker });
+    if(typeof marker.addListener === "function") marker.addListener("click", open);
+    if(typeof marker.addEventListener === "function") marker.addEventListener("gmp-click", open);
+    if(zone){
+      const circle = new Circle({
+        map, center: pos, radius: STORE.radiusKm * 1000, clickable: false,
+        strokeColor: "#0D9448", strokeOpacity: .7, strokeWeight: 2, fillColor: "#0D9448", fillOpacity: .1
+      });
+      map.fitBounds(circle.getBounds(), 16);
+    }
+  }catch(err){
+    console.warn("[Electromás] Mapa interactivo no disponible, se muestra el mapa simple:", err && err.message ? err.message : err);
+    mapFallback(el);
+  }
+}
+
+const mounted = new Set();
+function initMaps(){
+  $$(".gmap").forEach(el => {
+    const visible = el.closest(".screen") && el.closest(".screen").classList.contains("on");
+    if(!visible || mounted.has(el.id)) return;
+    mounted.add(el.id);
+    mountMap(el, el.dataset.zone === "1");
+  });
+}
+
+/* ===== VERIFICADOR DE DIRECCIÓN (Geocoding API) ===== */
+function setAddr(cls, html){
+  const out = $("#addrResult");
+  out.className = "addr-result" + (cls ? " " + cls : "");
+  out.innerHTML = html;
+}
+
+async function checkAddress(){
+  const q = $("#addrInput").value.trim();
+  if(q.length < 5){ setAddr("warn", "Escribí calle, número y localidad."); return; }
+  const btn = $("#addrBtn");
+  btn.disabled = true;
+  setAddr("", "Buscando tu dirección…");
+  try{
+    const store = await getStoreCoords();
+    const g = await geocode(q, store);
+    const km = distKm(store, g);
+    const inside = km <= STORE.radiusKm;
+    addrState = { formatted: g.formatted, km, inside };
+    if(currentProduct) updateWaLink();
+    setAddr(inside ? "ok" : "warn",
+      (inside ? "✅ " : "ℹ️ ") + esc(g.formatted) + " está a " + fmtKm(km) + " del local (en línea recta). " +
+      (inside ? "Entra en nuestra zona de envío." : "Queda fuera de la zona habitual: consultanos el costo por WhatsApp."));
+  }catch(err){
+    addrState = null;
+    if(err && err.code === "ZERO_RESULTS") setAddr("err", "No encontramos esa dirección. Probá con calle, número y localidad.");
+    else setAddr("err", "No pudimos verificar la dirección ahora. Elegí tu localidad en la lista o consultanos por WhatsApp.");
+    console.warn("[Electromás] Geocoding:", err && err.message ? err.message : err);
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+/* ===== RENDER ===== */
+function renderStoreInfo(){
+  const rows = [["Dirección", STORE.displayAddress], ["Horarios", STORE.hours], ["Teléfono", STORE.phone]];
+  const mk = r => r.map(([k, v]) => "<tr><td>" + esc(k) + "</td><td>" + esc(v) + "</td></tr>").join("");
+  $("#storeInfoQ").innerHTML = mk(rows);
+  $("#storeInfoC").innerHTML = mk(rows.concat([["Retiro", "Sin costo, con DNI del titular o número de orden"]]));
+}
+
+function renderSocial(){
+  const items = [["instagram", "📷 Instagram"], ["facebook", "👍 Facebook"]];
+  const html = items.filter(([k]) => SOCIAL[k]).map(([k, l]) =>
+    '<a class="btn sec" href="' + esc(SOCIAL[k]) + '" target="_blank" rel="noopener noreferrer">' + l + '</a>').join("");
+  $$(".social-links").forEach(el => { el.innerHTML = html; });
+}
+
+const card = p => `
+<div class="card">
+  <div class="ph">${esc(p.i)}</div>
+  <div class="in">
+    <span class="sm">${esc(p.s)}</span>
+    <h3>${esc(p.n)}</h3>
+    <div class="price">${fmtPrice(p.p)}</div>
+    <div class="promo-badge">Contado: ${fmtPrice(cashPrice(p.p))}</div>
+    <button class="btn sec" type="button" style="margin-top:8px" data-p="${p.id}">Ver detalle y envío</button>
+  </div>
+</div>`;
+
+const emptyMsg = txt => `<div class="empty">${txt}</div>`;
+
+function renderNotice(){ $("#noticeBanner").textContent = notice; }
+
+function renderAll(){
+  renderNotice();
+  $("#cats").innerHTML = SECS.map(([n,i]) => `<div class="cat" role="button" tabindex="0" data-sec="${esc(n)}"><span>${i}</span>${esc(n)}</div>`).join("");
+  $("#feat").innerHTML = P.slice(0,4).map(card).join("");
+  $("#chips").innerHTML = ["Todos", ...SECS.map(s => s[0])].map(s => `<button class="chip" type="button" data-f="${esc(s)}">${esc(s)}</button>`).join("");
+  $$(".btn-directions").forEach(a => a.href = directionsUrl);
+  renderStoreInfo();
+  renderSocial();
+  $("#zoneLegend").textContent = "Repartimos hasta " + STORE.radiusKm + " km a la redonda del local (zona marcada en el mapa). Para otras zonas, consultanos.";
+  list(currentFilter);
+}
+
+function list(f){
+  currentFilter = f;
+  const filtered = P.filter(p => f === "Todos" || p.s === f);
+  $("#list").innerHTML = filtered.length ? filtered.map(card).join("") : emptyMsg("Todavía no hay productos en esta categoría.");
+  $$(".chip").forEach(c => c.classList.toggle("on", c.dataset.f === f));
+}
+
+/* ===== BUSCADOR ===== */
+$("#searchInput").addEventListener("input", e => {
+  const term = e.target.value.trim().toLowerCase();
+  if(!term){ list("Todos"); return; }
+  const matches = P.filter(p => p.n.toLowerCase().includes(term) || p.s.toLowerCase().includes(term));
+  $("#list").innerHTML = matches.length ? matches.map(card).join("") : emptyMsg("No encontramos productos para “" + esc(e.target.value.trim()) + "”. Probá con otra palabra o escribinos por WhatsApp.");
+  $$(".chip").forEach(c => c.classList.remove("on"));
+  go("catalogo");
+});
+
+/* ===== FICHA DE PRODUCTO + MENSAJE PRELLENADO DE WHATSAPP ===== */
+// El mensaje se arma en el momento del clic, con lo que el usuario está viendo y eligió
+function waProductMessage(){
+  const p = currentProduct;
+  const sel = $("#zoneSelect");
+  const lines = [
+    "Hola! Quiero consultar por este producto de la web:",
+    "• " + p.n + " (cód. " + p.id + ")",
+    "• Precio de lista: " + fmtPrice(p.p),
+    "• Contado/transferencia (" + Math.round(DISCOUNT * 100) + "% OFF): " + fmtPrice(cashPrice(p.p))
+  ];
+  if(Number(sel.value) > 0){
+    lines.push("• Envío a: " + sel.options[sel.selectedIndex].text.replace(/\s*\(\$[\d.]+\)/, ""));
+  }
+  if(addrState){
+    lines.push("• Mi dirección: " + addrState.formatted + " (a " + fmtKm(addrState.km) + " del local)");
+  }
+  if(/^https?:$/.test(location.protocol)){
+    lines.push("Link: " + location.origin + location.pathname + "#producto-" + p.id);
+  }
+  lines.push("¿Está disponible?");
+  return lines.join("\n");
+}
+
+// Deja el enlace del botón siempre actualizado (útil para "copiar enlace" o abrir en otra pestaña)
+function updateWaLink(){
+  if(currentProduct) $("#pwa").href = waLink(waProductMessage());
+}
+
+let galleryImgs = [];
+
+function setMainImage(i){
+  const main = $("#pimg"), p = currentProduct;
+  main.innerHTML = "";
+  const img = document.createElement("img");
+  img.src = galleryImgs[i]; img.alt = p.n + " (foto " + (i + 1) + " de " + galleryImgs.length + ")";
+  img.onerror = () => { main.textContent = p.i; };      // si la foto no existe, se muestra el ícono
+  main.appendChild(img);
+  $$("#pthumbs .thumb").forEach((b, k) => b.classList.toggle("on", k === i));
+}
+
+function renderGallery(p){
+  const main = $("#pimg"), th = $("#pthumbs");
+  galleryImgs = Array.isArray(p.imgs) ? p.imgs.filter(Boolean) : [];
+  th.innerHTML = "";
+  if(!galleryImgs.length){ main.textContent = p.i; main.setAttribute("aria-label", "Imagen ilustrativa de " + p.n); return; }
+  main.removeAttribute("aria-label");
+  if(galleryImgs.length > 1){
+    th.innerHTML = galleryImgs.map((src, i) => '<button class="thumb" type="button" data-thumb="' + i + '" aria-label="Ver foto ' + (i + 1) + '"><img src="' + esc(src) + '" alt=""></button>').join("");
+  }
+  setMainImage(0);
+}
+
+function renderRelated(p){
+  const same = P.filter(x => x.id !== p.id && x.s === p.s);
+  const rest = P.filter(x => x.id !== p.id && x.s !== p.s);
+  $("#related").innerHTML = same.concat(rest).slice(0, 4).map(card).join("");
+}
+
+function show(id, fromRoute){
+  const p = P.find(x => String(x.id) === String(id));
+  if(!p){ go("catalogo", fromRoute); return; }
+  currentProduct = p;
+  $("#pcat").textContent = p.s;
+  $("#pname").textContent = p.n;
+  $("#pprice").textContent = fmtPrice(p.p);
+  $("#ptransferPrice").textContent = fmtPrice(cashPrice(p.p));
+  const st = STOCK[p.st] || STOCK.ok;
+  $("#pstock").textContent = st[0];
+  $("#pstock").className = "tag " + st[1];
+  renderGallery(p);
+  $("#pspec").innerHTML = p.d.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("");
+  renderRelated(p);
+  $("#shipResult").textContent = "";
+  $("#zoneSelect").value = "0";
+  $("#addrInput").value = "";
+  addrState = null;
+  setAddr("", "");
+  updateWaLink();
+  go("producto", true);
+  if(!fromRoute) setHash("producto-" + p.id);
+}
+
+$("#zoneSelect").addEventListener("change", e => {
+  const val = Number(e.target.value);
+  $("#shipResult").textContent = val > 0 ? "Costo estimado de envío a esa zona: " + fmtPrice(val) : "";
+  updateWaLink();
+});
+
+$("#addrBtn").addEventListener("click", checkAddress);
+$("#addrInput").addEventListener("keydown", e => { if(e.key === "Enter"){ e.preventDefault(); checkAddress(); } });
+
+/* ===== CONTACTO ===== */
+function showContactOk(nom, link){
+  const ok = $("#contactOk");
+  ok.innerHTML = '<strong>✅ ¡Listo, ' + esc(nom) + '! Tu consulta quedó preparada.</strong>' +
+    '<p class="sm">Se abrió WhatsApp con tu mensaje. Si no se abrió, tocá el botón y envialo desde ahí: te respondemos en el horario de atención.</p>' +
+    '<a class="btn wa" href="' + esc(link) + '" target="_blank" rel="noopener noreferrer">Abrir WhatsApp de nuevo</a>';
+  ok.hidden = false;
+}
+
+$("#btnSendContact").addEventListener("click", () => {
+  const nom = $("#c_nombre").value.trim();
+  const email = $("#c_email").value.trim();
+  const tel = $("#c_tel").value.trim();
+  const motivo = $("#c_motivo").value;
+  const msg = $("#c_msg").value.trim();
+  const err = $("#contactError");
+  $("#contactOk").hidden = true;
+  if(!nom || !msg){ err.textContent = "Completá tu nombre y el mensaje para continuar."; return; }
+  if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ err.textContent = "Revisá el email: parece incompleto."; return; }
+  err.textContent = "";
+  const texto = "Hola! Les escribo desde la web de Electromás.\n" +
+                "Nombre: " + nom + "\n" +
+                (email ? "Email: " + email + "\n" : "") +
+                (tel ? "Teléfono: " + tel + "\n" : "") +
+                "Motivo: " + motivo + "\n" +
+                "Mensaje: " + msg;
+  const link = waLink(texto);
+  window.open(link, "_blank", "noopener");
+  showContactOk(nom, link);
+  ["#c_nombre", "#c_email", "#c_tel", "#c_msg"].forEach(s => { $(s).value = ""; });
+  $("#c_motivo").selectedIndex = 0;
+});
+
+/* ===== CLICS GLOBALES (navegación, categorías, filtros, WhatsApp) ===== */
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-go],[data-sec],[data-f],[data-p],[data-wa],[data-wa-product],[data-thumb]");
+  if(!t) return;
+  if(t.hasAttribute("data-wa-product")){
+    e.preventDefault();
+    if(currentProduct) window.open(waLink(waProductMessage()), "_blank", "noopener");
+    return;
+  }
+  if(t.dataset.thumb !== undefined){ setMainImage(Number(t.dataset.thumb)); return; }
+  if(t.dataset.wa){ e.preventDefault(); window.open(waLink(t.dataset.wa), "_blank", "noopener"); return; }
+  if(t.dataset.p){ show(t.dataset.p); return; }
+  if(t.dataset.sec){ $("#searchInput").value = ""; list(t.dataset.sec); go("catalogo"); return; }
+  if(t.dataset.f){ $("#searchInput").value = ""; list(t.dataset.f); return; }
+  if(t.dataset.go){
+    if(t.dataset.go === "catalogo"){ $("#searchInput").value = ""; list("Todos"); }
+    go(t.dataset.go);
+  }
+});
+
+/* Accesibilidad: activar tarjetas de categoría y links con teclado */
+document.addEventListener("keydown", e => {
+  if((e.key === "Enter" || e.key === " ") && e.target.matches(".cat, nav a, .bc a, footer a")){
+    e.preventDefault();
+    e.target.click();
+  }
+});
+$$("nav a, .bc a, footer a").forEach(a => a.setAttribute("tabindex","0"));
+
+/* ===== INICIO ===== */
+renderAll();
+route();
+</script>
+</body>
+</html>
